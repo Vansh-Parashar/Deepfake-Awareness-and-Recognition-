@@ -49,14 +49,12 @@
             top: -30%; left: 50%; transform: translateX(-50%);
         }
 
-        /* ── WRAPPER — full width with responsive side padding ── */
         .wrapper {
             position: relative; z-index: 1;
             width: 100%;
             padding: 0 clamp(16px, 4vw, 64px);
         }
 
-        /* ── NAV ── */
         nav {
             display: flex; align-items: center; justify-content: space-between;
             padding: clamp(16px, 2.5vh, 28px) 0;
@@ -72,7 +70,6 @@
             border-radius: 4px; color: var(--muted); letter-spacing: 0.12em;
         }
 
-        /* ── HERO ── */
         .hero {
             display: flex; align-items: flex-end;
             justify-content: space-between; flex-wrap: wrap; gap: 16px;
@@ -96,10 +93,6 @@
             opacity: 0.3;
         }
 
-        /* ── MAIN CONTENT GRID ─────────────────────────────────
-           On laptop: left column (upload) + right column (results) side by side
-           On tablet/mobile: stacked
-        ── */
         .content-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -108,7 +101,6 @@
             padding-bottom: clamp(24px, 4vh, 56px);
         }
 
-        /* ── PANEL BASE ── */
         .panel {
             background: var(--panel);
             border: 1px solid var(--border);
@@ -123,14 +115,13 @@
         }
         .panel-inner { padding: clamp(20px, 2.5vw, 36px); }
 
-        /* Corner brackets */
-        .corner { position: absolute; width: 14px; height: 14px; }
+        /* Corner brackets - Fixed with pointer-events: none */
+        .corner { position: absolute; width: 14px; height: 14px; pointer-events: none; }
         .c-tl { top: 10px; left: 10px;  border-top: 1px solid var(--accent); border-left: 1px solid var(--accent);  opacity: 0.4; }
         .c-tr { top: 10px; right: 10px; border-top: 1px solid var(--accent); border-right: 1px solid var(--accent); opacity: 0.4; }
         .c-bl { bottom: 10px; left: 10px;  border-bottom: 1px solid var(--accent); border-left: 1px solid var(--accent);  opacity: 0.4; }
         .c-br { bottom: 10px; right: 10px; border-bottom: 1px solid var(--accent); border-right: 1px solid var(--accent); opacity: 0.4; }
 
-        /* ── DROP ZONE ── */
         .drop-zone {
             border: 1px dashed rgba(0,200,255,0.18); border-radius: 10px;
             height: clamp(160px, 22vh, 260px);
@@ -145,7 +136,10 @@
             background: rgba(0,200,255,0.04);
         }
         .drop-zone input { display: none; }
-        .dz-clicklabel { position: absolute; inset: 0; cursor: pointer; z-index: 1; display: block; }
+        
+        /* Fixed z-index to ensure label is clickable */
+        .dz-clicklabel { position: absolute; inset: 0; cursor: pointer; z-index: 10; display: block; }
+        
         .drop-icon {
             width: 46px; height: 46px; border-radius: 50%;
             border: 1px solid rgba(0,200,255,0.2);
@@ -164,11 +158,10 @@
             font-family: var(--mono); letter-spacing: 0.1em; margin-top: 5px;
         }
 
-        /* scan line */
         .scan-line {
             position: absolute; left: 0; right: 0; height: 1px;
             background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            top: 0; opacity: 0; display: none;
+            top: 0; opacity: 0; display: none; pointer-events: none;
         }
         .scan-line.active { display: block; animation: scanDown 2s ease-in-out infinite; }
         @keyframes scanDown {
@@ -178,7 +171,6 @@
             100% { top: 100%; opacity: 0; }
         }
 
-        /* preview */
         .preview-img {
             position: absolute; inset: 0; object-fit: cover;
             width: 100%; height: 100%; border-radius: 10px;
@@ -189,14 +181,12 @@
             background: linear-gradient(to bottom, rgba(3,6,13,0.2), rgba(3,6,13,0.72));
         }
 
-        /* selected state */
         .drop-default  { display: flex; flex-direction: column; align-items: center; position: relative; z-index: 2; }
         .drop-selected { display: none; flex-direction: column; align-items: center; gap: 7px; position: relative; z-index: 3; }
         .sel-tag  { font-family: var(--mono); font-size: 9px; letter-spacing: 0.35em; color: var(--accent); text-transform: uppercase; }
         .sel-name { font-family: var(--mono); font-size: clamp(11px, 1.2vw, 14px); color: #fff; max-width: 90%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; }
         .sel-meta { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.2em; }
 
-        /* ── SCAN BUTTON ── */
         .scan-btn {
             width: 100%; margin-top: 16px; padding: clamp(14px, 1.8vh, 20px);
             background: linear-gradient(135deg, var(--accent2), var(--accent));
@@ -217,7 +207,6 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* ── ERROR ── */
         .error-msg {
             display: none; align-items: center; gap: 10px;
             padding: 12px 16px; margin-top: 12px;
@@ -228,13 +217,11 @@
         }
         .error-msg.visible { display: flex; }
 
-        /* ── RESULTS PANEL ── */
         .results-panel { display: none; }
         .results-panel.visible { display: block; animation: fadeUp 0.45s ease; }
-        .results-panel.verdict-ai::before    { background: linear-gradient(90deg, transparent, var(--danger), transparent); opacity: 0.55; }
+        .results-panel.verdict-ai::before     { background: linear-gradient(90deg, transparent, var(--danger), transparent); opacity: 0.55; }
         .results-panel.verdict-human::before { background: linear-gradient(90deg, transparent, var(--safe),   transparent); opacity: 0.55; }
 
-        /* verdict */
         .verdict-row {
             display: flex; align-items: flex-start;
             justify-content: space-between; gap: 12px;
@@ -245,17 +232,16 @@
             font-family: var(--mono); font-size: clamp(8px, 0.85vw, 10px);
             letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 6px;
         }
-        .verdict-ai .verdict-label    { color: var(--danger); }
+        .verdict-ai .verdict-label     { color: var(--danger); }
         .verdict-human .verdict-label { color: var(--safe); }
         .verdict-text {
             font-family: var(--display); font-weight: 800;
             font-size: clamp(22px, 3.5vw, 42px);
             line-height: 1; text-transform: uppercase; letter-spacing: -0.02em;
         }
-        .verdict-ai .verdict-text    { color: var(--danger); }
+        .verdict-ai .verdict-text     { color: var(--danger); }
         .verdict-human .verdict-text { color: var(--safe); }
 
-        /* ring */
         .conf-ring { position: relative; width: 76px; height: 76px; flex-shrink: 0; }
         .conf-ring svg { transform: rotate(-90deg); }
         .ring-track { fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 4; }
@@ -271,7 +257,6 @@
         .verdict-human .ring-pct { color: var(--safe); }
         .ring-sub { font-family: var(--mono); font-size: 8px; color: var(--muted); letter-spacing: 0.1em; }
 
-        /* divider / section titles */
         .divider { height: 1px; background: var(--border); margin: clamp(14px, 2vh, 22px) 0; }
         .sec-title {
             font-family: var(--mono); font-size: 9px;
@@ -279,7 +264,6 @@
             color: var(--muted); margin-bottom: 12px;
         }
 
-        /* model cards */
         .model-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         .model-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
         .model-name { font-family: var(--mono); font-size: 8px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -288,7 +272,6 @@
         .pill-ai    { background: rgba(255,59,92,0.12);  color: var(--danger); }
         .pill-human { background: rgba(0,255,163,0.10);  color: var(--safe); }
 
-        /* face metrics */
         .face-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
         .face-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 12px; text-align: center; }
         .face-lbl { font-family: var(--mono); font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
@@ -296,7 +279,6 @@
         .face-sub { font-family: var(--mono); font-size: 7px; color: var(--muted); margin-top: 3px; }
         .no-face  { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.12em; text-align: center; padding: 16px; border: 1px dashed rgba(255,255,255,0.05); border-radius: 8px; }
 
-        /* signal bars */
         .signals-grid { display: flex; flex-direction: column; gap: 10px; }
         .sig-row { display: flex; flex-direction: column; gap: 5px; }
         .sig-hdr  { display: flex; justify-content: space-between; align-items: center; }
@@ -308,7 +290,6 @@
         .bar-mid  { background: #ffb800; }
         .bar-high { background: var(--danger); }
 
-        /* type badge */
         .type-badge {
             display: inline-flex; align-items: center; gap: 6px;
             font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em;
@@ -319,7 +300,6 @@
         .type-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); animation: blink 1.5s ease infinite; }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-        /* ── PLACEHOLDER (right col before scan) ── */
         .placeholder-panel {
             display: flex; flex-direction: column; align-items: center;
             justify-content: center; gap: 12px;
@@ -335,9 +315,6 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* ── RESPONSIVE ─────────────────────────────────────── */
-
-        /* Tablet (≤900px): stack to single column */
         @media (max-width: 900px) {
             .content-grid { grid-template-columns: 1fr; }
             .hero-sub { display: none; }
@@ -345,7 +322,6 @@
             .model-grid { grid-template-columns: 1fr 1fr; }
         }
 
-        /* Mobile (≤540px): tighten everything */
         @media (max-width: 540px) {
             .wrapper { padding: 0 14px; }
             .hero-title { font-size: clamp(40px, 14vw, 60px); }
@@ -363,24 +339,18 @@
     <div class="bg-glow"></div>
 
     <div class="wrapper">
-
-        <!-- NAV -->
         <nav>
             <span class="nav-logo">DEEPGUARD // FORENSIC ENGINE</span>
             <span class="nav-badge">V1.0 · NEURAL</span>
         </nav>
 
-        <!-- HERO -->
         <div class="hero">
             <h1 class="hero-title">Deep<br><span>Guard</span></h1>
             <p class="hero-sub">Multi-model<br>AI forensic<br>detection<br>platform</p>
         </div>
         <div class="hero-line"></div>
 
-        <!-- TWO-COLUMN GRID -->
         <div class="content-grid">
-
-            <!-- LEFT: Upload -->
             <div>
                 <div class="panel">
                     <div class="corner c-tl"></div>
@@ -393,6 +363,7 @@
                              ondragover="handleDragOver(event)"
                              ondragleave="handleDragLeave()"
                              ondrop="handleDrop(event)">
+                            
                             <input type="file" id="fileInput" accept="image/*,video/*" onchange="handleFileSelect()">
                             <label class="dz-clicklabel" for="fileInput"></label>
 
@@ -400,7 +371,6 @@
                             <img id="previewImg" class="preview-img">
                             <div id="previewOverlay" class="preview-overlay"></div>
 
-                            <!-- default -->
                             <div class="drop-default" id="dropDefault">
                                 <div class="drop-icon">
                                     <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -411,7 +381,6 @@
                                 <span class="drop-formats">JPG · PNG · WEBP · MP4 · MOV · AVI</span>
                             </div>
 
-                            <!-- selected -->
                             <div class="drop-selected" id="dropSelected">
                                 <span class="sel-tag">Target Acquired</span>
                                 <span class="sel-name" id="selName"></span>
@@ -426,20 +395,17 @@
                             </div>
                         </button>
 
-                        <!-- Error stays under the button -->
                         <div class="error-msg" id="errorMsg">
                             <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
-                            <span id="errorText">Backend offline — ensure server is running on port 8000</span>
+                            <span id="errorText">Network error — check Hugging Face Space status</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- RIGHT: Results or placeholder -->
             <div id="rightCol">
-                <!-- Placeholder shown before first scan -->
                 <div class="placeholder-panel" id="placeholder">
                     <svg class="ph-icon" width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
@@ -448,13 +414,10 @@
                     <p class="ph-text">Upload a target<br>and execute scan<br>to view forensic report</p>
                 </div>
 
-                <!-- Results (hidden until scan) -->
                 <div class="panel results-panel" id="resultsPanel">
                     <div class="corner c-tl"></div>
                     <div class="corner c-tr"></div>
                     <div class="panel-inner">
-
-                        <!-- Verdict -->
                         <div class="verdict-row">
                             <div>
                                 <div class="verdict-label" id="verdictLabel">ANALYSIS COMPLETE</div>
@@ -473,17 +436,14 @@
                             </div>
                         </div>
 
-                        <!-- Model ensemble -->
                         <div class="divider"></div>
                         <div class="sec-title">Model Ensemble</div>
                         <div class="model-grid" id="modelGrid"></div>
 
-                        <!-- Face analysis -->
                         <div class="divider"></div>
                         <div class="sec-title">Face Region Analysis</div>
                         <div id="faceContent"></div>
 
-                        <!-- Forensic signals -->
                         <div class="divider"></div>
                         <div class="sec-title">Forensic Signals</div>
                         <div class="signals-grid" id="signalsGrid"></div>
@@ -492,18 +452,15 @@
                             <div class="type-dot"></div>
                             <span id="typeBadge">Static Image Analysis</span>
                         </div>
-
                     </div>
                 </div>
             </div>
-
-        </div><!-- /content-grid -->
-    </div><!-- /wrapper -->
+        </div>
+    </div>
 
     <script>
     let selectedFile = null;
 
-    // ── File handling ──────────────────────────────────
     function handleFileSelect() {
         const f = document.getElementById('fileInput').files[0];
         if (f) setFile(f);
@@ -543,9 +500,12 @@
         hideResults(); hideError();
     }
 
-    // ── Analysis ───────────────────────────────────────
     async function startAnalysis() {
-        if (!selectedFile) { showError('No media target selected.'); return; }
+        // Fix: Trigger file selector if button clicked without file
+        if (!selectedFile) { 
+            document.getElementById('fileInput').click();
+            return; 
+        }
 
         const btn     = document.getElementById('scanBtn');
         const spinner = document.getElementById('btnSpinner');
@@ -561,12 +521,16 @@
         try {
             const form = new FormData();
             form.append('file', selectedFile);
-            const res  = await fetch('https://vansh-parashar-deepguard-engine.hf.space/analyze', { method: 'POST', body: form });
+            // Updated to your new Hugging Face Space URL
+            const res  = await fetch('https://vansh-parashar-deepguard-engine.hf.space/analyze', { 
+                method: 'POST', 
+                body: form 
+            });
             const data = await res.json();
             if (data.error) { showError('Backend error: ' + data.error); return; }
             renderResults(data);
-        } catch {
-            showError('Cannot reach backend — make sure the server is running on http://127.0.0.1:8000');
+        } catch (err) {
+            showError('Network Error: Cannot reach AI Engine. Check if Space is Running.');
         } finally {
             btn.disabled = false;
             spinner.style.display = 'none';
@@ -575,13 +539,11 @@
         }
     }
 
-    // ── Render ─────────────────────────────────────────
     function renderResults(data) {
         const panel = document.getElementById('resultsPanel');
         const isAi  = data.is_ai;
         const conf  = data.score ?? data.confidence ?? 0;
 
-        // Hide placeholder, show results
         document.getElementById('placeholder').style.display = 'none';
         panel.className = 'panel results-panel visible ' + (isAi ? 'verdict-ai' : 'verdict-human');
 
@@ -589,7 +551,6 @@
         document.getElementById('verdictText').textContent  = isAi ? 'Synthetic Image' : 'Human Origin';
         document.getElementById('typeBadge').textContent    = data.type ?? 'Static Image Analysis';
 
-        // Ring
         const circ = 201.06;
         setTimeout(() => {
             document.getElementById('ringFill').style.strokeDashoffset = circ - (Math.min(conf,100)/100) * circ;
@@ -600,7 +561,6 @@
         renderFace(data);
         renderSignals(data);
 
-        // On mobile/tablet (stacked layout) scroll results into view
         if (window.innerWidth <= 900) {
             setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 120);
         }
@@ -635,7 +595,7 @@
     function renderFace(data) {
         const el = document.getElementById('faceContent');
         if (!data.face_analyzed) {
-            el.innerHTML = '<div class="no-face">No face detected — face micro-analysis unavailable</div>';
+            el.innerHTML = '<div class="no-face">No face detected — micro-analysis unavailable</div>';
             return;
         }
         const col = v => v > 70 ? 'var(--danger)' : v > 45 ? '#ffb800' : 'var(--safe)';
@@ -679,7 +639,6 @@
         }, 150);
     }
 
-    // ── Helpers ────────────────────────────────────────
     function hideResults() {
         document.getElementById('placeholder').style.display  = '';
         document.getElementById('resultsPanel').className     = 'panel results-panel';
