@@ -115,7 +115,7 @@
         }
         .panel-inner { padding: clamp(20px, 2.5vw, 36px); }
 
-        /* Corner brackets - Fixed with pointer-events: none */
+        /* Corner brackets - pointer-events: none prevents them from blocking clicks */
         .corner { position: absolute; width: 14px; height: 14px; pointer-events: none; }
         .c-tl { top: 10px; left: 10px;  border-top: 1px solid var(--accent); border-left: 1px solid var(--accent);  opacity: 0.4; }
         .c-tr { top: 10px; right: 10px; border-top: 1px solid var(--accent); border-right: 1px solid var(--accent); opacity: 0.4; }
@@ -137,9 +137,19 @@
         }
         .drop-zone input { display: none; }
         
-        /* Fixed z-index to ensure label is clickable */
+        /* The label is the primary click target */
         .dz-clicklabel { position: absolute; inset: 0; cursor: pointer; z-index: 10; display: block; }
         
+        /* FIX: Added pointer-events: none to these elements so clicks go THROUGH them to the label */
+        .drop-icon, 
+        .drop-label, 
+        .drop-formats,
+        .drop-default,
+        .drop-selected {
+            pointer-events: none;
+            z-index: 5;
+        }
+
         .drop-icon {
             width: 46px; height: 46px; border-radius: 50%;
             border: 1px solid rgba(0,200,255,0.2);
@@ -174,15 +184,16 @@
         .preview-img {
             position: absolute; inset: 0; object-fit: cover;
             width: 100%; height: 100%; border-radius: 10px;
-            opacity: 0.28; display: none;
+            opacity: 0.28; display: none; pointer-events: none;
         }
         .preview-overlay {
             position: absolute; inset: 0; border-radius: 10px; display: none;
             background: linear-gradient(to bottom, rgba(3,6,13,0.2), rgba(3,6,13,0.72));
+            pointer-events: none;
         }
 
-        .drop-default  { display: flex; flex-direction: column; align-items: center; position: relative; z-index: 2; }
-        .drop-selected { display: none; flex-direction: column; align-items: center; gap: 7px; position: relative; z-index: 3; }
+        .drop-default  { display: flex; flex-direction: column; align-items: center; position: relative; }
+        .drop-selected { display: none; flex-direction: column; align-items: center; gap: 7px; position: relative; }
         .sel-tag  { font-family: var(--mono); font-size: 9px; letter-spacing: 0.35em; color: var(--accent); text-transform: uppercase; }
         .sel-name { font-family: var(--mono); font-size: clamp(11px, 1.2vw, 14px); color: #fff; max-width: 90%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; }
         .sel-meta { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.2em; }
@@ -501,7 +512,6 @@
     }
 
     async function startAnalysis() {
-        // Fix: Trigger file selector if button clicked without file
         if (!selectedFile) { 
             document.getElementById('fileInput').click();
             return; 
@@ -521,7 +531,6 @@
         try {
             const form = new FormData();
             form.append('file', selectedFile);
-            // Updated to your new Hugging Face Space URL
             const res  = await fetch('https://vansh-parashar-deepguard-engine.hf.space/analyze', { 
                 method: 'POST', 
                 body: form 
